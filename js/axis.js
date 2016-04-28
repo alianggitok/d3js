@@ -8,17 +8,27 @@
 		 axis=d3.svg.axis();
 
 	linear.domain([0, d3.max(data)]).range([0,300]);
+	
 	axis.scale(linear).orient('bottom').ticks(5);
 
 	svg.attr({
 		'width':width,
-		'height':height
+		'height':height,
+		'viewBox':'0 0 800 600'
 	});
 
-	svg.append('g').attr({
+	var axisObj=svg.append('g').attr({
 		'class':'axis',
 		'transform':'translate(15,135)'
 	}).call(axis);
+	
+	var axisLen=axisObj.selectAll('g')[0].length;
+	axisObj.select('.tick:first-child>text').style({
+		'text-anchor':'start'
+	});
+	axisObj.select('.tick:nth-child('+axisLen+')>text').style({
+		'text-anchor':'end'
+	});
 
 
 	var svgWithData=svg.selectAll('rect').data(data).enter(),
